@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	//TODO 現状はダミーで単純に引数を変換するだけ。オプション引数などは要検討
+	//TODO 現状は未完成で単純に引数を変換するだけ。オプション引数などは要検討
 	fmt.Printf("args : %#v\n", os.Args)
 	src := os.Args[1]
 
