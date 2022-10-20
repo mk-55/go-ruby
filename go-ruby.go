@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"os"
 	"syscall"
@@ -15,9 +16,22 @@ func main() {
 	//TODO 現状は未完成で単純に引数を変換するだけ。オプション引数などは要検討
 	fmt.Printf("args : %#v\n", os.Args)
 
+	var (
+		pattern = flag.String("pattern", ruby.RUBY_PATTERN_HTML, "Pattern of ruby style")
+	)
+
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, "go-ruby: Tool to add ruby on Japanese text.\n")
+		fmt.Fprintf(os.Stderr, "Usage: go-ruby [options...] src \n")
+		fmt.Fprintf(os.Stderr, "   src string\n")
+		fmt.Fprintf(os.Stderr, "        Target Japanese text.\n")
+		flag.PrintDefaults()
+	}
+	flag.Parse()
+
 	var src string
-	if len(os.Args) > 2 {
-		src = os.Args[1]
+	if flag.NArg() > 0 {
+		src = flag.Arg(0)
 	} else {
 		src = ""
 	}
@@ -36,15 +50,15 @@ func main() {
 
 	}
 
-	conf, err := ruby.NewConfiguration(ruby.RUBY_PATTERN_HTML)
+	conf, err := ruby.NewConfiguration(*pattern)
 	if err != nil {
-		fmt.Printf(err.Error())
+		fmt.Println(err.Error())
 		os.Exit(1)
 	}
 
 	writer, err := ruby.NewRubyWriter(conf)
 	if err != nil {
-		fmt.Printf(err.Error())
+		fmt.Println(err.Error())
 		os.Exit(1)
 	}
 
@@ -53,7 +67,7 @@ func main() {
 			src = sc.Text()
 			output, err := writer.AddRuby(src)
 			if err != nil {
-				fmt.Printf(err.Error())
+				fmt.Println(err.Error())
 				os.Exit(1)
 			}
 			fmt.Println(output)
@@ -61,7 +75,7 @@ func main() {
 	} else {
 		output, err := writer.AddRuby(src)
 		if err != nil {
-			fmt.Printf(err.Error())
+			fmt.Println(err.Error())
 			os.Exit(1)
 		}
 		fmt.Println(output)
