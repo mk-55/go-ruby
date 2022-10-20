@@ -7,4 +7,9 @@ require (
 	github.com/ikawaha/kagome/v2 v2.8.0
 )
 
-require github.com/ikawaha/kagome-dict v1.0.4 // indirect
+require golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1 // indirect
+
+require (
+	github.com/ikawaha/kagome-dict v1.0.4 // indirect
+	golang.org/x/term v0.1.0
+)
