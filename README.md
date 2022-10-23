@@ -1,4 +1,3 @@
-args : []string{"./go-ruby"}
 # go-ruby
 
 <ruby>日本語<rp>(</rp><rt>にほんご</rt><rp>)</rp></ruby>の<ruby>文章<rp>(</rp><rt>ぶんしょう</rt><rp>)</rp></ruby>にルビを<ruby>振る<rp>(</rp><rt>ふる</rt><rp>)</rp></ruby>ためのプログラムです。このREADMEのルビも<ruby>本<rp>(</rp><rt>ほん</rt><rp>)</rp></ruby>プログラムでルビを<ruby>振り<rp>(</rp><rt>ふり</rt><rp>)</rp></ruby>ました。

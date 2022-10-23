@@ -14,8 +14,7 @@ import (
 
 func main() {
 	//TODO 現状は未完成で単純に引数を変換するだけ。オプション引数などは要検討
-	fmt.Printf("args : %#v\n", os.Args)
-
+	fmt.Fprintf(os.Stderr, "args : %#v\n", os.Args)
 	var (
 		pattern = flag.String("pattern", ruby.RUBY_PATTERN_HTML, "Pattern of ruby style")
 	)
@@ -41,6 +40,7 @@ func main() {
 	case "":
 		// ターミナル入力でsrc未指定なら終了
 		if term.IsTerminal(syscall.Stdin) {
+			fmt.Fprintf(os.Stderr, "ERROR: src string required. \n")
 			os.Exit(1)
 		}
 		fallthrough
@@ -52,13 +52,13 @@ func main() {
 
 	conf, err := ruby.NewConfiguration(*pattern)
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Fprintf(os.Stderr, "ERROR: %s \n", err.Error())
 		os.Exit(1)
 	}
 
 	writer, err := ruby.NewRubyWriter(conf)
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Fprintf(os.Stderr, "ERROR: %s \n", err.Error())
 		os.Exit(1)
 	}
 
@@ -67,7 +67,7 @@ func main() {
 			src = sc.Text()
 			output, err := writer.AddRuby(src)
 			if err != nil {
-				fmt.Println(err.Error())
+				fmt.Fprintf(os.Stderr, "ERROR: %s \n", err.Error())
 				os.Exit(1)
 			}
 			fmt.Println(output)
@@ -75,7 +75,7 @@ func main() {
 	} else {
 		output, err := writer.AddRuby(src)
 		if err != nil {
-			fmt.Println(err.Error())
+			fmt.Fprintf(os.Stderr, "ERROR: %s \n", err.Error())
 			os.Exit(1)
 		}
 		fmt.Println(output)
